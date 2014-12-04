@@ -7,6 +7,7 @@ usage() {
 }
 
 awstar_init.sh
+source ~/.awstar
 
 RUNDATE=`date "+%Y%m%d_%H%M"`
 LOGFILE="${RUNDATE}_tar.log"
