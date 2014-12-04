@@ -8,7 +8,7 @@ usage() {
 
 RUNDATE=`date "+%Y%m%d_%H%M"`
 LOGFILE="${RUNDATE}_tar.log"
-STATUS_UPDATE_ARN="arn:aws:sns:us-east-1:826181281546:jamiehardt_internal_notifications"
+STATUS_UPDATE_ARN=AWSTAR_UPDATE_ARN
 VOLUME_SIZE=250M
 INFO_SCRIPT_COMMAND=awstar_autoload.sh
 WRITE_VOLUME_COMMAND=awstar_write_volume.sh
