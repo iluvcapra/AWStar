@@ -6,18 +6,21 @@ usage() {
     echo "Usage: " `basename $0` JOB_NAME SOURCE_DIR "[...]"
 }
 
+awstar_init.sh
+
 RUNDATE=`date "+%Y%m%d_%H%M"`
 LOGFILE="${RUNDATE}_tar.log"
-STATUS_UPDATE_ARN=AWSTAR_UPDATE_ARN
+STATUS_UPDATE_ARN=$AWSTAR_UPDATE_ARN
 VOLUME_SIZE=250M
-INFO_SCRIPT_COMMAND=awstar_autoload.sh
-WRITE_VOLUME_COMMAND=awstar_write_volume.sh
+INFO_SCRIPT_COMMAN=$(which awstar_autoload.sh)
+WRITE_VOLUME_COMMAND=$(which awstar_write_volume.sh)
+CHECKPOINT_COMMAND=$(which awstar_checkpoint.sh)
 
 JOB_NAME=$1
 shift ## remaining arguments are directories
 
 ARCHIVE_NAME=$JOB_NAME-$RUNDATE
-S3_BUCKET_NAME=jamiehardtmpse-arch-$(date +"%Y")
+S3_BUCKET_NAME=$AWSTAR_S3_BUCKET_PREFIX-arch-$(date +"%Y")
 ARCHIVE_BASE_PREFIX_S3URL=s3://$S3_BUCKET_NAME/$ARCHIVE_NAME
 
 GIGABYTE=$(expr 1024 "*" 1024 "*" 1024)
@@ -110,7 +113,7 @@ tar --create \
 --volno-file=_tar_volnum \
 --exclude "WaveCache.wfm" \
 --checkpoint=$CHECKPOINT_FREQ \
---checkpoint-action=exec=/usr/local/bin/awstar_checkpoint.sh \
+--checkpoint-action=exec=$CHECKPOINT_COMMAND \
 --file "$FIRST_VOL" "$PATHS_TO_BACKUP" | tee $LOGFILE
 
 # Upload last file
