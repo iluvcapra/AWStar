@@ -108,7 +108,7 @@ export ARCHIVE_SIZE_BYTES
 export kmg
 
 echo "Running tar..."
-tar --create \
+gnutar --create \
 --info-script=$INFO_SCRIPT_COMMAND \
 --multi-volume --tape-length=$VOLUME_SIZE \
 --volno-file=_tar_volnum \
